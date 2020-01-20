@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>shopping list app</title>
-    <link rel="stylesheet" href="/1.Getting Started With Vue.js/main.css" />
-    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.common.dev.js"></script>
-  </head>
 
-  <body>
-    <div id="shopping-list">
-      <div class="header">
-        <h1>{{ header.toLocaleUpperCase() }}</h1>
-        <!-- <h2>{{ header ? header : 'shopping list' }}</h2> -->
-        <button v-if="state === 'default'" class="btn btn-primary" @click="saveItem">Save Item</button>
-        <button v-else="state === 'edit'" class="btn btn-cancel">Cancel</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>购物清单 App</title>
+  <link rel="stylesheet" href="./main.css" />
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.common.dev.js"></script>
+</head>
+
+<body>
+  <div id="shopping-list">
+    <h1>{{ header.toLocaleUpperCase() }}</h1>
+    <!-- <h2>{{ header ? header : 'shopping list' }}</h2> -->
+    <div  class="add-item-form">
+      <div class="add-item-form header">
+        <input type="text" v-model="newItem" placeholder="添加一个项目" @keyup.enter="saveItem" />
+        <button v-if="state === 'default'" class="btn btn-primary" @click="saveItem">增加</>
       </div>
-      <div class="add-item-form">
-        <input
-          type="text"
-          v-model="newItem"
-          placeholder="Add an item"
-          :keyup.enter="saveItem"
-        />
-      </div>
-      <ul>
-        <li v-for="item in items">{{item}}</li>
-      </ul>
-      <p v-if="items.length === 0">Nice job ！ you've bought all the things you listed</p>
+      <button v-else class="btn btn-cancel" @click="changeState('edit')">取消</button>
     </div>
-    <script>
-      var shoppingList = new Vue({
-        el: "#shopping-list",
-        data: {
-          state: 'default',
-          header: "shopping list app",
-          items: [
-            // "10 party hats",
-            // "5 stocks"
-          ],
-          newItem: ""
+    <ul>
+      <li v-for="item in items">{{item}}</li>
+    </ul>
+    <p v-if="items.length === 0">剁手吧！~都给买好了~！</p>
+  </div>
+  <script>
+    var shoppingList = new Vue({
+      el: "#shopping-list",
+      data: {
+        state: 'default',
+        header: "购物清单 App",
+        items: [
+          // "10 party hats",
+          // "5 stocks"
+        ],
+        newItem: ''
+      },
+      methods: {
+        saveItem: function () {
+          this.items.push(this.newItem);
+          this.newItem = '';
         },
-        methods: {
-          saveItem: function() {
-            this.items.push(this.newItem);
-            this.newItem = "";
-          }
+        changeState: function (newState) {
+          this.state = newState;
+          this.newItem='';
         }
-      });
-    </script>
-  </body>
+      }
+    });
+  </script>
+</body>
+
 </html>
